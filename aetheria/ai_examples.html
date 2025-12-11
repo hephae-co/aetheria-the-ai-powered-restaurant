@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Aetheria AI Revolution</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/index.css"> <!-- Link to main app's Tailwind CSS -->
+    <style>
+        #aetheria-logo {
+            max-height: 64px; /* Equivalent to h-16 */
+            width: auto;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body class="font-sans bg-background text-text-primary">
+    <div class="container mx-auto p-4 md:p-8 bg-card-background border border-border-color rounded-xl shadow-lg mt-8 mb-8">
+        <!-- Header -->
+        <header class="text-center mb-12 relative">
+            <a href="/" class="absolute top-0 left-0 mt-4 ml-4 px-4 py-2 bg-accent text-primary rounded-lg font-semibold hover:bg-yellow-300 transition-colors duration-300 flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                </svg>
+                <span>Home</span>
+            </a>
+            <img id="aetheria-logo" src="https://storage.googleapis.com/hephae/aetheria/data/aetheria-logo.png" alt="Aetheria Logo" class="mx-auto mb-4 h-16 w-auto object-contain">
+            <h1 class="font-serif text-4xl md:text-6xl font-bold text-accent">The Aetheria AI Revolution</h1>
+            <p class="mt-4 text-lg md:text-xl text-text-secondary max-w-3xl mx-auto">Interactive examples of Generative AI powering the modern restaurant.</p>
+        </header>
+
+        <main class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+
+            <!-- Card 1: AI Chatbot -->
+            <div class="bg-card-background border border-border-color rounded-xl shadow-lg p-6 md:p-8 flex flex-col transition-transform duration-300 ease-in-out hover:scale-105">
+                <div class="flex items-center mb-4">
+                    <div class="bg-primary p-2 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                    </div>
+                    <h2 class="ml-4 text-2xl font-bold text-text-primary">AI Customer Service Chatbot</h2>
+                </div>
+                <p class="text-text-secondary mb-4">An AI chatbot handles common questions instantly, freeing up staff and providing 24/7 customer support.</p>
+                <div id="chat-window" class="bg-background p-4 rounded-lg h-64 overflow-y-auto flex flex-col space-y-3 mb-4">
+                    <div class="max-w-xs md:max-w-md px-4 py-2 rounded-lg bg-secondary text-text-primary rounded-bl-none self-start animate-fade-in">Welcome to Aetheria! How can I help you today? Try asking about our hours, location, or reservations.</div>
+                </div>
+                <div class="flex space-x-2">
+                    <input type="text" id="chat-input" class="w-full rounded-lg p-2 bg-secondary text-text-primary focus:outline-none focus:ring-2 focus:ring-accent" placeholder="Ask a question...">
+                    <button id="chat-send" class="px-4 py-2 rounded-lg font-semibold bg-accent text-primary hover:bg-yellow-300 transition-colors duration-300">Send</button>
+                </div>
+            </div>
+
+            <!-- Card 2: AI Menu Description Enhancer -->
+            <div class="bg-card-background border border-border-color rounded-xl shadow-lg p-6 md:p-8 flex flex-col transition-transform duration-300 ease-in-out hover:scale-105">
+                <div class="flex items-center mb-4">
+                    <div class="bg-primary p-2 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    </div>
+                    <h2 class="ml-4 text-2xl font-bold text-text-primary">AI Menu Description Enhancer</h2>
+                </div>
+                <p class="text-text-secondary mb-4">Transform basic dish names into enticing descriptions with key features highlighted by AI.</p>
+                <textarea id="menu-input" class="w-full rounded-lg p-2 h-32 bg-secondary text-text-primary focus:outline-none focus:ring-2 focus:ring-accent">A light and airy chocolate soufflé, dusted with edible glitter, reminiscent of a starry night.</textarea>
+                <button id="menu-btn" class="w-full py-2 rounded-lg font-semibold mt-4 bg-accent text-primary hover:bg-yellow-300 transition-colors duration-300">✨ Enhance with AI</button>
+                <div id="menu-output" class="hidden mt-4 p-4 bg-background rounded-lg animate-fade-in"></div>
+            </div>
+            
+            <!-- Card 3: AI-Powered SEO -->
+            <div class="bg-card-background border border-border-color rounded-xl shadow-lg p-6 md:p-8 flex flex-col transition-transform duration-300 ease-in-out hover:scale-105">
+                <div class="flex items-center mb-4">
+                    <div class="bg-primary p-2 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                    </div>
+                    <h2 class="ml-4 text-2xl font-bold text-text-primary">AI-Powered SEO</h2>
+                </div>
+                <p class="text-text-secondary mb-4">AI optimizes website titles and content to dominate local search results, attracting more direct customers.</p>
+                <div class="bg-background p-4 rounded-lg">
+                    <p class="text-sm text-text-secondary mb-2">Google Search Result:</p>
+                    <div id="seo-example" class="transition-all duration-300">
+                        <h3 class="text-accent text-xl font-semibold">Aetheria | Celestial Way Restaurant</h3>
+                        <p class="text-green-400 text-sm">aetheria-restaurant.com</p>
+                        <p class="text-text-secondary text-sm">Unique dining with celestial themes.</p>
+                    </div>
+                </div>
+                <button id="seo-btn" class="w-full py-2 rounded-lg font-semibold mt-4 bg-accent text-primary hover:bg-yellow-300 transition-colors duration-300">Optimize with AI</button>
+            </div>
+            
+             <!-- Card 4: AI Phone Answering -->
+            <div class="bg-card-background border border-border-color rounded-xl shadow-lg p-6 md:p-8 flex flex-col transition-transform duration-300 ease-in-out hover:scale-105">
+                <div class="flex items-center mb-4">
+                    <div class="bg-primary p-2 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+                    </div>
+                    <h2 class="ml-4 text-2xl font-bold text-text-primary">AI Phone Answering</h2>
+                </div>
+                <p class="text-text-secondary mb-4">AI assistants answer calls 24/7, handling common questions and converting callers to customers without staff intervention.</p>
+                <div id="phone-simulation" class="bg-background p-4 rounded-lg h-64 overflow-y-auto flex flex-col space-y-3">
+                     <div class="flex justify-center items-center h-full">
+                        <p class="text-text-secondary">Click below to simulate a call.</p>
+                    </div>
+                </div>
+                <button id="phone-btn" class="w-full py-2 rounded-lg font-semibold mt-4 bg-accent text-primary hover:bg-yellow-300 transition-colors duration-300">Simulate a Call to Aetheria</button>
+            </div>
+
+            <!-- Card 5: AI Marketing Content -->
+            <div class="bg-card-background border border-border-color rounded-xl shadow-lg p-6 md:p-8 flex flex-col transition-transform duration-300 ease-in-out hover:scale-105">
+                <div class="flex items-center mb-4">
+                     <div class="bg-primary p-2 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                    </div>
+                    <h2 class="ml-4 text-2xl font-bold text-text-primary">AI Marketing Content</h2>
+                </div>
+                <p class="text-text-secondary mb-4">AI can analyze menu data and reviews to automatically generate a month's worth of engaging social media or SMS content.</p>
+                <div id="marketing-example" class="bg-background p-4 rounded-md min-h-[100px] flex items-center justify-center text-text-secondary italic">
+                    Your draft will appear here...
+                </div>
+                <button id="marketing-btn" class="w-full py-2 rounded-lg font-semibold mt-4 bg-accent text-primary hover:bg-yellow-300 transition-colors duration-300">✨ Generate with AI for Aetheria</button>
+            </div>
+
+             <!-- Card 6: AI Food Photography Enhancer -->
+            <div class="bg-card-background border border-border-color rounded-xl shadow-lg p-6 md:p-8 flex flex-col transition-transform duration-300 ease-in-out hover:scale-105">
+                 <div class="flex items-center mb-4">
+                    <div class="bg-primary p-2 rounded-full">
+                       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                    </div>
+                    <h2 class="ml-4 text-2xl font-bold text-text-primary">AI Food Photo Enhancer</h2>
+                </div>
+                <p class="text-text-secondary mb-4">Upload a food photo and let AI improve its lighting, color, and appeal to make it menu-ready.</p>
+                
+                <div class="mt-auto">
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div id="original-image-container" class="bg-background rounded-lg h-40 flex items-center justify-center flex-col text-center p-2">
+                             <img src="https://storage.googleapis.com/hephae/aetheria/data/Solar%20Flare%20Salmon.png" alt="Default Food Photo" class="rounded-lg object-cover w-full h-full">
+                        </div>
+                        <div id="generated-image-container" class="bg-background rounded-lg h-40 flex items-center justify-center flex-col text-center p-2">
+                             <p class="text-text-secondary text-sm">AI Enhanced</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <input type="text" id="image-url-input" class="w-full rounded-lg p-2 text-sm bg-secondary text-text-primary focus:outline-none focus:ring-2 focus:ring-accent" placeholder="Paste an image URL here..." value="https://storage.googleapis.com/hephae/aetheria/data/Solar%20Flare%20Salmon.png">
+                        
+                        <label for="image-upload" class="cursor-pointer p-2 rounded-lg bg-secondary border border-border-color text-center transition-colors duration-200 hover:bg-primary block">
+                            Or click to upload an image
+                        </label>
+                        <input type="file" id="image-upload" class="hidden" accept="image/*">
+                    </div>
+
+                    <button id="enhance-btn" class="w-full py-2 rounded-lg font-semibold mt-4 bg-accent text-primary hover:bg-yellow-300 transition-colors duration-300" disabled>✨ Enhance Photo with AI</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let imageBase64 = null; // Store for the API call
+
+            // --- ✨ NEW: AI CHATBOT (SIMULATED) ---
+            const chatWindow = document.getElementById('chat-window');
+            const chatInput = document.getElementById('chat-input');
+            const chatSendBtn = document.getElementById('chat-send');
+
+            const addChatMessage = (message, sender) => {
+                const bubble = document.createElement('div');
+                bubble.classList.add('max-w-xs', 'md:max-w-md', 'px-4', 'py-2', 'rounded-lg', 'animate-fade-in');
+                if (sender === 'user') {
+                    bubble.classList.add('bg-accent', 'text-primary', 'rounded-br-none', 'self-end');
+                } else {
+                    bubble.classList.add('bg-secondary', 'text-text-primary', 'rounded-bl-none', 'self-start');
+                }
+                bubble.textContent = message;
+                chatWindow.appendChild(bubble);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            };
+
+            const getAiResponse = (userInput) => {
+                const lowerInput = userInput.toLowerCase();
+                if (lowerInput.includes('hour') || lowerInput.includes('open')) { return 'We are open Tuesday to Sunday from 5 PM to 10 PM. We are closed on Mondays.'; }
+                if (lowerInput.includes('reservation')) { return 'You can make a reservation online through our website or by giving us a call. Would you like a link to our reservation page?'; }
+                if (lowerInput.includes('location') || lowerInput.includes('address')) { return 'We are located at 123 Celestial Way, Nebula, 98765.'; }
+                if (lowerInput.includes('vegan') || lowerInput.includes('vegetarian')) { return 'Yes, we have a wonderful selection of vegan and vegetarian options! Our Galaxy Greens salad and the Mushroom Nebula Risotto are customer favorites.';}
+                return "I'm sorry, I can't answer that question right now, but our staff would be happy to help if you give us a call.";
+            };
+
+            const handleChat = () => {
+                const userInput = chatInput.value.trim();
+                if (userInput) {
+                    addChatMessage(userInput, 'user');
+                    chatInput.value = '';
+                    setTimeout(() => {
+                        const aiResponse = getAiResponse(userInput);
+                        addChatMessage(aiResponse, 'ai');
+                    }, 1000);
+                }
+            };
+            
+            chatSendBtn.addEventListener('click', handleChat);
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') { handleChat(); }
+            });
+
+            // --- ✨ NEW: GEMINI API: AI MENU ENHANCER ---
+            const menuBtn = document.getElementById('menu-btn');
+            const menuInput = document.getElementById('menu-input');
+            const menuOutput = document.getElementById('menu-output');
+
+            const enhanceMenuDescription = async () => {
+                const description = menuInput.value.trim();
+                if (!description) { alert("Please enter a dish description."); return; }
+
+                menuBtn.disabled = true;
+                menuBtn.innerHTML = '<div class="flex justify-center items-center"><div class="loader mr-2"></div>Thinking...</div>';
+                menuOutput.classList.remove('hidden');
+                menuOutput.innerHTML = `<div class="flex justify-center"><div class="loader"></div></div>`;
+                
+                const userQuery = `You are an expert menu copywriter for a restaurant named 'Aetheria'. Take the following simple dish description and enhance it. First, write a single, more appealing paragraph. Then, on new lines, add a bulleted list of 'Key Ingredients', 'Dietary Notes' (like Vegan, Gluten-Free), and a 'Perfect Pairing' suggestion. Format the bullet points with a '*' at the start of each line. Here's the description: "${description}"`;
+                // Use the proxy endpoint for Gemini API calls
+                const apiUrl = '/vertex-ai-proxy';
+                const payload = { prompt: userQuery };
+
+                try {
+                    const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                    if (!response.ok) throw new Error(`API error: ${response.status}`);
+                    const result = await response.json();
+                    let text = result.text; // Assuming the proxy returns { text: "..." }
+                    if (text) {
+                        text = text.replace(/^\s*\*\s*(.*)$/gm, '<li><span class="text-accent mr-2">•</span>$1</li>');
+                        text = text.replace(/(<li>.*<\/li>)/g, '<ul class="mt-4 space-y-2">$1</ul>');
+                        menuOutput.innerHTML = text.replace(/\n/g, '<br>');
+                    } else { menuOutput.innerHTML = `<p class="text-error">Could not generate content. Please try again.</p>`; }
+                } catch (error) {
+                    console.error("Error enhancing menu:", error);
+                    menuOutput.innerHTML = `<p class="text-error text-center">An error occurred. Please check the browser console.</p>`;
+                } finally {
+                    menuBtn.disabled = false;
+                    menuBtn.innerHTML = '✨ Enhance with AI';
+                }
+            };
+            
+            menuBtn.addEventListener('click', enhanceMenuDescription);
+
+            // --- RE-ADDED: AI SEO INTERACTIVITY ---
+            const seoBtn = document.getElementById('seo-btn');
+            const seoExample = document.getElementById('seo-example');
+            let seoOptimized = false;
+
+            seoBtn.addEventListener('click', () => {
+                seoOptimized = !seoOptimized;
+                if (seoOptimized) {
+                    seoExample.innerHTML = `<h3 class="text-accent text-xl font-semibold">Best Celestial Dining in Nebula | Aetheria</h3><p class="text-success text-sm">aetheria-restaurant.com/reservations</p><p class="text-text-secondary text-sm">★★★★★ Book your table at Aetheria for an unforgettable celestial-themed fine dining experience. Vegan options available.</p>`;
+                    seoBtn.textContent = 'Revert to Original';
+                } else {
+                    seoExample.innerHTML = `<h3 class="text-accent text-xl font-semibold">Aetheria | Celestial Way Restaurant</h3><p class="text-success text-sm">aetheria-restaurant.com</p><p class="text-text-secondary text-sm">Unique dining with celestial themes.</p>`;
+                    seoBtn.textContent = 'Optimize with AI';
+                }
+            });
+
+            // --- RE-ADDED: AI PHONE INTERACTIVITY ---
+            const phoneBtn = document.getElementById('phone-btn');
+            const phoneSimulation = document.getElementById('phone-simulation');
+
+            phoneBtn.addEventListener('click', () => {
+                phoneBtn.disabled = true;
+                phoneBtn.textContent = 'Simulation in progress...';
+                phoneSimulation.innerHTML = '';
+                const messages = [
+                    { from: 'user', text: 'Hi, are you open on Mondays?' },
+                    { from: 'ai', text: 'Thanks for calling Aetheria! We are closed on Mondays but open Tuesday through Sunday from 5 PM to 10 PM.' },
+                    { from: 'ai', text: 'Can I help with anything else? I can also text you a link to our online reservation page.' },
+                    { from: 'user', text: 'Yes, please text me the link!' },
+                    { from: 'ai', text: 'Of course! I have sent the reservation link to this number. We look forward to seeing you!' },
+                ];
+                let delay = 500;
+                messages.forEach((msg, index) => {
+                    setTimeout(() => {
+                        const bubble = document.createElement('div');
+                        bubble.classList.add('max-w-xs', 'md:max-w-md', 'px-4', 'py-2', 'rounded-lg', 'animate-fade-in');
+                        if (msg.from === 'user') { bubble.classList.add('bg-accent', 'text-primary', 'rounded-br-none', 'self-end'); } else { bubble.classList.add('bg-secondary', 'text-text-primary', 'rounded-bl-none', 'self-start'); }
+                        bubble.textContent = msg.text;
+                        phoneSimulation.appendChild(bubble);
+                        phoneSimulation.scrollTop = phoneSimulation.scrollHeight;
+                        if (index === messages.length - 1) { phoneBtn.disabled = false; phoneBtn.textContent = "Simulate Again"; }
+                    }, delay);
+                    delay += msg.from === 'ai' ? 1500 : 1000;
+                });
+            });
+
+            // --- ✨ GEMINI API: AI MARKETING CONTENT ---
+            const marketingBtn = document.getElementById('marketing-btn');
+            const marketingExample = document.getElementById('marketing-example');
+
+            const generateMarketingContent = async () => {
+                marketingBtn.disabled = true;
+                marketingBtn.innerHTML = '<div class="flex justify-center items-center"><div class="loader mr-2"></div>Thinking...</div>';
+                marketingExample.classList.remove('text-text-secondary', 'italic');
+                marketingExample.classList.add('text-text-primary', 'items-center', 'justify-center');
+                marketingExample.innerHTML = `<div class="loader"></div>`;
+                const userQuery = "Generate a short, exciting SMS marketing message for a restaurant called Aetheria. Highlight a special offer for the 'Galaxy Mousse Cake' dessert. Keep it under 200 characters and include a call to action to order online.";
+                // Use the proxy endpoint for Gemini API calls
+                const apiUrl = '/vertex-ai-proxy';
+                const payload = { prompt: userQuery };
+                try {
+                    const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                    if (!response.ok) throw new Error(`API error: ${response.status}`);
+                    const result = await response.json();
+                    const text = result.text; // Assuming the proxy returns { text: "..." }
+                    if (text) { marketingExample.innerHTML = `<p class="text-center">${text.replace(/\n/g, '<br>')}</p>`; } else { marketingExample.innerHTML = `<p class="text-error">Could not generate content. Please try again.</p>`; }
+                } catch (error) {
+                    console.error("Error generating marketing content:", error);
+                    marketingExample.innerHTML = `<p class="text-error text-center">An error occurred. Please check the browser console.</p>`;
+                } finally {
+                    marketingBtn.disabled = false;
+                    marketingBtn.innerHTML = '✨ Regenerate Content';
+                }
+            };
+            marketingBtn.addEventListener('click', generateMarketingContent);
+
+            // --- ✨ UPDATED: GEMINI API: AI FOOD PHOTO ENHANCER ---
+            const enhanceBtn = document.getElementById('enhance-btn');
+            const imageUploadInput = document.getElementById('image-upload');
+            const imageUrlInput = document.getElementById('image-url-input');
+            const originalContainer = document.getElementById('original-image-container');
+            const generatedContainer = document.getElementById('generated-image-container');
+
+            const displayImage = (container, base64) => {
+                container.innerHTML = `<img src="${base64}" alt="Food photo" class="rounded-lg object-cover w-full h-full">`;
+            };
+
+            const showLoading = (container, text) => {
+                container.innerHTML = `<div class="flex flex-col items-center justify-center h-full"><div class="loader"></div><p class="mt-2 text-text-secondary text-sm">${text}</p></div>`;
+            };
+
+            const showError = (container, text) => {
+                container.innerHTML = `<p class="text-error text-center text-sm">${text}</p>`;
+            };
+
+            const processFile = (file) => {
+                console.log('processFile: File selected', file);
+                if (file && file.type.startsWith('image/')) {
+                    imageUrlInput.value = ''; // Clear other input
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        imageBase64 = e.target.result;
+                        displayImage(originalContainer, imageBase64);
+                        enhanceBtn.disabled = false;
+                        console.log('processFile: Image loaded, enhanceBtn enabled.');
+                    };
+                    reader.onerror = (e) => {
+                        console.error('processFile: FileReader error', e);
+                        showError(originalContainer, "Error reading file.");
+                        imageBase64 = null;
+                        enhanceBtn.disabled = true;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    showError(originalContainer, "Please select an image file.");
+                    imageBase64 = null;
+                    enhanceBtn.disabled = true;
+                    console.log('processFile: Invalid file type, enhanceBtn disabled.');
+                }
+            };
+            
+            const processUrl = async (url) => {
+                console.log('processUrl: URL provided', url);
+                if (!url) return;
+                imageUploadInput.value = ''; // Clear other input
+                showLoading(originalContainer, 'Loading image...');
+                enhanceBtn.disabled = true;
+                console.log('processUrl: enhanceBtn disabled during URL loading.');
+                try {
+                    // Use a CORS proxy for demo purposes. In a real app, this should be a server-side endpoint.
+                    const proxyUrl = `/image-proxy?url=${encodeURIComponent(url)}`;
+                    const response = await fetch(proxyUrl);
+                    if (!response.ok) throw new Error(`Network response was not ok: ${response.statusText}`);
+                    const blob = await response.blob();
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        imageBase64 = reader.result;
+                        displayImage(originalContainer, imageBase64);
+                        enhanceBtn.disabled = false;
+                        console.log('processUrl: Image loaded from URL via proxy, enhanceBtn enabled.');
+                    };
+                    reader.onerror = (e) => {
+                        console.error('processUrl: FileReader error', e);
+                        showError(originalContainer, "Error reading image from URL via proxy.");
+                        imageBase64 = null;
+                        enhanceBtn.disabled = true;
+                    };
+                    reader.readAsDataURL(blob);
+                } catch (error) {
+                    console.error("Error fetching image from URL via proxy:", error);
+                    showError(originalContainer, "Could not load image via proxy. Check URL and server logs.");
+                    imageBase64 = null;
+                    enhanceBtn.disabled = true;
+                    console.log('processUrl: Error loading image from URL via proxy, enhanceBtn disabled.');
+                }
+            }
+
+            // Initialize with the default image
+            const defaultImageUrl = imageUrlInput.value;
+            if (defaultImageUrl) {
+                processUrl(defaultImageUrl);
+            }
+
+            imageUploadInput.addEventListener('change', (e) => processFile(e.target.files[0]));
+            imageUrlInput.addEventListener('change', (e) => processUrl(e.target.value));
+
+            // Temporarily enable the button for debugging purposes
+            enhanceBtn.disabled = false;
+            console.log('enhanceBtn: Temporarily enabled for debugging.');
+
+            enhanceBtn.addEventListener('click', async () => {
+                console.log('enhanceBtn: Clicked!');
+                if (!imageBase64) {
+                    alert('Please upload an image or provide a URL first.');
+                    console.log('enhanceBtn: No imageBase64, alert shown.');
+                    return;
+                }
+                enhanceBtn.disabled = true;
+                enhanceBtn.innerHTML = '<div class="flex justify-center items-center"><div class="loader mr-2"></div>Thinking...</div>';
+                showLoading(generatedContainer, 'AI is working...');
+                console.log('enhanceBtn: Sending enhancement request to proxy.');
+
+                const prompt = "You are a professional food photographer. Enhance this image to look more delicious, vibrant, and high-quality for a restaurant menu. Improve the lighting, color saturation, and focus on the texture of the food. Do not change the dish or add new elements.";
+                // Use the proxy endpoint for Gemini API calls
+                const apiUrl = '/vertex-ai-proxy';
+                
+                // The API expects base64 data without the data URI prefix
+                const pureBase64 = imageBase64.split(',')[1];
+                const imageMimeType = imageBase64.match(/data:(.*);base64,/)[1];
+
+                const payload = {
+                    prompt: prompt,
+                    image: {
+                        mimeType: imageMimeType,
+                        data: pureBase64
+                    }
+                };
+
+                try {
+                    const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                    if (!response.ok) throw new Error(`API error: ${response.status} ${response.statusText}`);
+                    const result = await response.json();
+                    
+                    const text = result?.text; // Assuming the proxy returns { text: "..." }
+
+                    if (text) {
+                        generatedContainer.innerHTML = `<p class="text-text-primary text-sm text-center">${text}</p>`;
+                    } else {
+                        showError(generatedContainer, 'AI could not enhance this image. Please try another.');
+                        console.log("No text data in response:", result);
+                    }
+                } catch (error) {
+                    console.error("Error enhancing food photo:", error);
+                    showError(generatedContainer, 'An error occurred during enhancement.');
+                } finally {
+                    enhanceBtn.disabled = false;
+                    enhanceBtn.innerHTML = '✨ Enhance Another Photo';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
