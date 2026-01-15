@@ -54,25 +54,19 @@ To build and run the application using Docker locally:
 
 ### 3. Deploy to Cloud Run
 
-To deploy the full-stack application to Google Cloud Run:
+To deploy the full-stack application to Google Cloud Run, building directly from source:
 
-1.  **Build and push the Docker image to Google Container Registry (GCR) or Artifact Registry**:
-    Replace `YOUR_PROJECT_ID` with your actual Google Cloud Project ID.
-    ```bash
-    docker build -t gcr.io/YOUR_PROJECT_ID/aetheria-restaurant:latest .
-    docker push gcr.io/YOUR_PROJECT_ID/aetheria-restaurant:latest
-    ```
-
-2.  **Deploy to Cloud Run**:
+1.  **Deploy to Cloud Run**:
     ```bash
     gcloud run deploy aetheria-restaurant \\
-        --image gcr.io/YOUR_PROJECT_ID/aetheria-restaurant:latest \\
+        --source=. \\
         --platform managed \\
         --region us-central1 \\
         --allow-unauthenticated \\
         --set-env-vars PROJECT_ID=YOUR_PROJECT_ID,LOCATION=us-central1,NODE_ENV=production
     ```
     *   Replace `YOUR_PROJECT_ID` with your actual Google Cloud Project ID.
+    *   `--source=.`: This tells Cloud Run to build the container image directly from your local source code using Cloud Build.
     *   `--set-env-vars PROJECT_ID=YOUR_PROJECT_ID,LOCATION=us-central1,NODE_ENV=production`: This is critical.
         *   `PROJECT_ID` and `LOCATION` are used by the backend to connect to Vertex AI.
         *   `NODE_ENV=production` ensures that the `server.cjs` script within the container serves the built static frontend assets in addition to the API routes.
