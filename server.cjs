@@ -124,12 +124,6 @@ app.post('/vertex-ai-proxy', async (req, res) => {
   }
 });
 
-// Serve index.html from the dist directory
-app.get('/', (req, res) => {
-    const indexPath = path.join(staticPath, 'index.html');
-    res.sendFile(indexPath);
-});
-
 // New endpoint to proxy image requests
 app.get('/image-proxy', async (req, res) => {
   const imageUrl = req.query.url;
@@ -156,50 +150,55 @@ app.get('/image-proxy', async (req, res) => {
   }
 });
 
-// Serve ai_examples.html with dynamic CSS path
-app.get('/aetheria/ai_examples.html', async (req, res) => {
-  try {
-    // Read the main index.html to get the hashed CSS path
-    const mainIndexHtmlPath = path.join(staticPath, 'index.html');
-    // Dynamically find the hashed CSS file in the assets directory
-    const assetsPath = path.join(staticPath, 'assets');
-    console.log('Checking assets path:', assetsPath);
-    let cssPath = '/index.css'; // Default fallback
+// Serve static files only in production
+if (process.env.NODE_ENV === 'production') {
+  // Serve index.html from the dist directory
+  app.get('/', (req, res) => {
+      const indexPath = path.join(staticPath, 'index.html');
+      res.sendFile(indexPath);
+  });
+  // Serve ai_examples.html with dynamic CSS path
+  app.get('/aetheria/ai_examples.html', async (req, res) => {
     try {
-      const filesInAssets = await fs.promises.readdir(assetsPath);
-      console.log('Files in assets directory:', filesInAssets);
-      const cssFileName = filesInAssets.find(file => file.startsWith('index-') && file.endsWith('.css'));
-      if (cssFileName) {
-        cssPath = `/assets/${cssFileName}`;
+      // Read the main index.html to get the hashed CSS path
+      const mainIndexHtmlPath = path.join(staticPath, 'index.html');
+      // Dynamically find the hashed CSS file in the assets directory
+      const assetsPath = path.join(staticPath, 'assets');
+      console.log('Checking assets path:', assetsPath);
+      let cssPath = '/index.css'; // Default fallback
+      try {
+        const filesInAssets = await fs.promises.readdir(assetsPath);
+        console.log('Files in assets directory:', filesInAssets);
+        const cssFileName = filesInAssets.find(file => file.startsWith('index-') && file.endsWith('.css'));
+        if (cssFileName) {
+          cssPath = `/assets/${cssFileName}`;
+        }
+      } catch (error) {
+        console.error('Error reading assets directory:', error);
       }
+      console.log('Dynamically determined CSS Path:', cssPath);
+      // Read ai_examples.html
+      const aiExamplesHtmlPath = path.join(staticPath, 'aetheria', 'ai_examples.html');
+      console.log('Attempting to read ai_examples.html from:', aiExamplesHtmlPath);
+      let aiExamplesHtmlContent = await fs.promises.readFile(aiExamplesHtmlPath, 'utf8');
+      // Replace the hardcoded CSS link with the dynamic one
+      aiExamplesHtmlContent = aiExamplesHtmlContent.replace(
+        /<link rel="stylesheet" href="\/index\.css">/,
+        `<link rel="stylesheet" href="${cssPath}">`
+      );
+      console.log('Modified ai_examples.html content (first 500 chars):', aiExamplesHtmlContent.substring(0, 500));
+      res.send(aiExamplesHtmlContent);
     } catch (error) {
-      console.error('Error reading assets directory:', error);
+      console.error('Error serving ai_examples.html:', error);
+      console.error('Stack trace:', error.stack);
+      res.status(500).send('Error loading AI examples page.');
     }
-    console.log('Dynamically determined CSS Path:', cssPath);
+  });
 
-    // Read ai_examples.html
-    const aiExamplesHtmlPath = path.join(staticPath, 'aetheria', 'ai_examples.html');
-    console.log('Attempting to read ai_examples.html from:', aiExamplesHtmlPath);
-    let aiExamplesHtmlContent = await fs.promises.readFile(aiExamplesHtmlPath, 'utf8');
-
-    // Replace the hardcoded CSS link with the dynamic one
-    aiExamplesHtmlContent = aiExamplesHtmlContent.replace(
-      /<link rel="stylesheet" href="\/index\.css">/,
-      `<link rel="stylesheet" href="${cssPath}">`
-    );
-    console.log('Modified ai_examples.html content (first 500 chars):', aiExamplesHtmlContent.substring(0, 500));
-
-    res.send(aiExamplesHtmlContent);
-  } catch (error) {
-    console.error('Error serving ai_examples.html:', error);
-    console.error('Stack trace:', error.stack);
-    res.status(500).send('Error loading AI examples page.');
-  }
-});
-
-// Serve static files
-app.use('/public', express.static(publicPath));
-app.use(express.static(staticPath));
+  // Serve static files
+  app.use('/public', express.static(publicPath));
+  app.use(express.static(staticPath));
+}
 
 // Start the HTTP server
 const server = app.listen(port, () => {
