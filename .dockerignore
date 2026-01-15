@@ -1,0 +1,10 @@
+node_modules
+npm-debug.log
+.DS_Store
+.env
+server
+.git
+.gitignore
+Dockerfile
+README.md
+aetheria/hephae.code-workspace

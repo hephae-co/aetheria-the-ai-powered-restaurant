@@ -12,6 +12,11 @@ export default defineConfig({
       '/vertex-ai-proxy': {
         target: 'http://localhost:3000',
         changeOrigin: true,
+        ws: true,
+      },
+      '/image-proxy': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
       },
     },
   },

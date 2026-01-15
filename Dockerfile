@@ -1,39 +1,45 @@
-# Stage 1: Build the frontend, and install server dependencies
-FROM node:22 AS builder
-
+# Stage 1: Build the frontend
+FROM node:22-slim AS builder
 
 WORKDIR /app
 
-# Copy all files from the current directory
-COPY package.json package-lock.json ./
+# Copy package.json and package-lock.json to leverage Docker cache
+COPY package.json package-lock.json* ./
+
+# Install all dependencies
 RUN npm install
+
+# Copy the rest of the application source code
 COPY . .
 
-# Install server dependencies
-WORKDIR /app/server
-COPY server/package.json server/package-lock.json* ./
-COPY server/.env ./
-RUN npm install --frozen-lockfile
-
-# Install dependencies and build the frontend
-WORKDIR /app
-RUN mkdir dist
+# Build the frontend
 RUN npm run build
-RUN ls -la /app/dist
 
-
-# Stage 2: Build the final server image
-FROM node:22
+# Stage 2: Create the final production image
+FROM node:22-slim
 
 WORKDIR /app
 
-#Copy server files
-COPY --from=builder /app/server .
-# Copy built frontend assets from the builder stage
-COPY --from=builder /app/dist ./dist
-# Copy the aetheria directory
-COPY aetheria ./dist/aetheria
+# Copy package.json and package-lock.json from the builder stage
+COPY --from=builder /app/package.json /app/package-lock.json* ./
 
+# Install only production dependencies
+RUN npm install --omit=dev
+
+# Copy the built frontend assets from the builder stage
+COPY --from=builder /app/dist ./dist
+
+# Copy the public directory
+COPY --from=builder /app/public ./public
+
+# Copy the server script
+COPY --from=builder /app/server.cjs .
+
+# Copy the aetheria directory into the dist folder
+COPY --from=builder /app/aetheria ./dist/aetheria
+
+# Expose the port the server runs on
 EXPOSE 3000
 
-CMD ["node", "server.js"]
+# The command to run the application
+CMD ["node", "server.cjs"]
