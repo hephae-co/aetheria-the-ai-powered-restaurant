@@ -41,5 +41,8 @@ COPY --from=builder /app/aetheria ./dist/aetheria
 # Expose the port the server runs on
 EXPOSE 8080
 
+# Set the node environment to production
+ENV NODE_ENV=production
+
 # The command to run the application
 CMD ["node", "server.cjs"]
