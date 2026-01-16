@@ -39,8 +39,7 @@ COPY --from=builder /app/server.cjs .
 COPY --from=builder /app/aetheria ./dist/aetheria
 
 # Expose the port the server runs on
-ENV PORT=8080
-EXPOSE 8080
+EXPOSE 3000
 
 # The command to run the application
 CMD ["node", "server.cjs"]
