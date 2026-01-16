@@ -16,7 +16,7 @@ const { VertexAI } = require('@google-cloud/vertexai');
 require('dotenv').config(); // Load environment variables from .env file
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
 const PROJECT_ID = process.env.PROJECT_ID;
 const LOCATION = process.env.LOCATION || 'us-central1'; // Default to us-central1 if LOCATION is not set
@@ -201,8 +201,8 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Start the HTTP server
-const server = app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
+const server = app.listen(port, '0.0.0.0', () => {
+    console.log(`Server listening at http://0.0.0.0:${port}`);
     console.log(`Vertex AI proxy active on /vertex-ai-proxy`);
 }).on('error', (err) => {
     console.error('Server failed to start:', err);
