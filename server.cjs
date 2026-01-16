@@ -20,7 +20,17 @@ async function startServer() {
   const app = express();
   const port = process.env.PORT || 8080;
 
-  const PROJECT_ID = process.env.PROJECT_ID || process.env.GOOGLE_CLOUD_PROJECT;
+  let projectId = process.env.PROJECT_ID || process.env.GOOGLE_CLOUD_PROJECT;
+  if (!projectId) {
+    try {
+      if (await gcpMetadata.isAvailable()) {
+        projectId = await gcpMetadata.project('project-id');
+      }
+    } catch (e) {
+      console.error('Error fetching GCP project ID, falling back to null.', e);
+    }
+  }
+  const PROJECT_ID = projectId;
   
   let location = process.env.LOCATION;
   if (!location) {
