@@ -294,3 +294,18 @@ server.on('upgrade', (request, socket, head) => {
         socket.destroy();
     }
 });
+
+// Graceful shutdown
+const gracefulShutdown = () => {
+  console.log('SIGINT/SIGTERM signal received: closing HTTP server');
+  server.close(() => {
+    console.log('HTTP server closed');
+    wss.close(() => {
+        console.log('WebSocket server closed');
+        process.exit(0);
+    });
+  });
+};
+
+process.on('SIGINT', gracefulShutdown);
+process.on('SIGTERM', gracefulShutdown);
