@@ -21,29 +21,30 @@ async function startServer() {
   const port = process.env.PORT || 8080;
 
   let projectId = process.env.PROJECT_ID || process.env.GOOGLE_CLOUD_PROJECT;
-  if (!projectId) {
+  let location = process.env.LOCATION || process.env.GOOGLE_CLOUD_LOCATION;
+
+  if (!projectId || !location) {
     try {
       if (await gcpMetadata.isAvailable()) {
-        projectId = await gcpMetadata.project('project-id');
+        const [metadataProjectId, metadataZone] = await Promise.all([
+          !projectId ? gcpMetadata.project('project-id') : Promise.resolve(null),
+          !location ? gcpMetadata.instance('zone') : Promise.resolve(null),
+        ]);
+
+        if (metadataProjectId) {
+          projectId = metadataProjectId;
+        }
+        if (metadataZone) {
+          location = metadataZone.split('/').pop().slice(0, -2);
+        }
       }
     } catch (e) {
-      console.error('Error fetching GCP project ID, falling back to null.', e);
+      console.error('Error fetching GCP metadata:', e);
     }
   }
+
   const PROJECT_ID = projectId;
-  
-  let location = process.env.LOCATION;
-  if (!location) {
-    try {
-      if (await gcpMetadata.isAvailable()) {
-        const zone = await gcpMetadata.instance('zone'); // e.g. projects/PROJECT_NUMBER/zones/us-central1-a
-        location = zone.split('/').pop().slice(0, -2);
-      }
-    } catch (e) {
-      console.error('Error fetching GCP zone, falling back to default location.', e);
-    }
-  }
-  const LOCATION = location || 'us-central1'; // Fallback if all else fails
+  const LOCATION = location || 'us-central1'; // Fallback for location if still not set
 
   console.log(`Server starting with PROJECT_ID: ${PROJECT_ID}, LOCATION: ${LOCATION}`);
 
@@ -159,7 +160,7 @@ async function startServer() {
       console.log(`[/image-proxy] Attempting to fetch image from: ${imageUrl}`);
       const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
       const contentType = response.headers['content-type'];
-      
+
       if (!contentType || !contentType.startsWith('image')) {
         console.warn(`[/image-proxy] Fetched content is not an image: ${contentType}`);
         return res.status(400).send('The provided URL does not point to an image.');
