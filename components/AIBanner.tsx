@@ -2,12 +2,10 @@ import React from 'react';
 
 const AIBanner: React.FC = () => {
   return (
-    <div className="relative z-50 bg-primary text-text-primary py-3 text-center shadow-lg">
+    <div className="relative z-50 bg-primary text-text-primary py-3 text-center shadow-lg mb-16">
       <a 
-        href="/aetheria/ai_examples.html"
+        href="/ai-examples"
         className="text-accent hover:underline font-semibold text-lg flex items-center justify-center space-x-2"
-        target="_blank" // Open in new tab
-        rel="noopener noreferrer" // Security best practice for target="_blank"
       >
         <span>See what else AI can do for you</span>
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">

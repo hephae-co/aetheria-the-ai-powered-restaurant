@@ -25,40 +25,43 @@ const Menu: React.FC = () => {
   };
 
   return (
-    <section id="menu" className="relative py-12 bg-background">
-      <div className="container mx-auto px-6">
-        <h2 className="text-4xl font-bold text-center font-serif mb-12 text-accent">Our AI-Crafted Menu</h2>
-        
-        <div className="flex justify-center mb-8">
-          <WeatherMenuWidget onRecommendations={setRecommendedItems} />
+    <section id="menu" className="relative py-12 bg-background rounded-lg overflow-hidden">
+        <div className="absolute top-4 right-4 z-10">
+          <AIInsight title="How AI Refines Our Menu">
+            <p>Our menu descriptions are enhanced by Google's Gemini AI model, accessed via Vertex AI. The AI analyzes various culinary aspects to generate enticing and accurate descriptions for each dish, helping you make informed choices.</p>
+            <p>Click the "Refine Menu Descriptions" button to see AI-generated descriptions for our dishes!</p>
+            <button
+              onClick={handleRefineMenu}
+              className="mt-4 px-6 py-3 bg-accent text-primary font-bold rounded-full hover:bg-yellow-300 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+              disabled={isRefining}
+            >
+              {isRefining ? <Loader text="Refining..." /> : "Refine Menu Descriptions"}
+            </button>
+          </AIInsight>
         </div>
+      
+        <div className="px-4 sm:px-6 lg:px-8">
+            <h2 className="text-4xl font-bold text-center font-serif mb-12 text-accent">Our AI-Crafted Menu</h2>
+            
+            <div className="flex justify-center mb-8">
+              <WeatherMenuWidget onRecommendations={setRecommendedItems} />
+            </div>
 
-        <AIInsight title="How AI Refines Our Menu">
-          <p>Our menu descriptions are enhanced by Google's Gemini AI model, accessed via Vertex AI. The AI analyzes various culinary aspects to generate enticing and accurate descriptions for each dish, helping you make informed choices.</p>
-          <p>Click the "Refine Menu Descriptions" button to see AI-generated descriptions for our dishes!</p>
-          <button
-            onClick={handleRefineMenu}
-            className="mt-4 px-6 py-3 bg-accent text-primary font-bold rounded-full hover:bg-yellow-300 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
-            disabled={isRefining}
-          >
-            {isRefining ? <Loader text="Refining..." /> : "Refine Menu Descriptions"}
-          </button>
-        </AIInsight>
-        {isRefining && (
-          <div className="flex justify-center items-center py-8">
-            <Loader text="Refining menu descriptions..." />
-          </div>
-        )}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {menuItems.map((item) => (
-            <MenuItem
-              key={item.name}
-              item={item}
-              isRecommended={recommendedItems.includes(item.name)}
-            />
-          ))}
+            {isRefining && (
+              <div className="flex justify-center items-center py-8">
+                <Loader text="Refining menu descriptions..." />
+              </div>
+            )}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {menuItems.map((item) => (
+                <MenuItem
+                  key={item.name}
+                  item={item}
+                  isRecommended={recommendedItems.includes(item.name)}
+                />
+              ))}
+            </div>
         </div>
-      </div>
     </section>
   );
 };
