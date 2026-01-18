@@ -1,13 +1,44 @@
 # Aetheria: The AI-Powered Restaurant (Full-Stack Application)
 
-This is a full-stack application for Aetheria, an AI-powered restaurant. It includes a React frontend (Vite) and a Node.js backend (Express) that serves as a proxy for the Google Vertex AI Gemini API. The backend handles secure API calls and also serves the static frontend assets in production.
+This is a full-stack application for Aetheria, an AI-powered restaurant. It includes a React frontend built with Vite and a Node.js backend using Express. The backend serves as a proxy to the Google Vertex AI Gemini API, handling secure authentication and also serving the static frontend assets in a production environment.
+
+## Architecture
+
+The application follows a simple client-server model where the backend acts as a Backend for Frontend (BFF).
+
+```
+[Client Browser] <--> [Vite/Node.js on Cloud Run] <--> [Google Vertex AI API]
+       |                      | (Express Server)
+       |                      |
+       <----------------------> 
+        (Serves React App)
+```
+
+- **Frontend**: A React single-page application (SPA) that provides the user interface.
+- **Backend**: An Express.js server that serves two main purposes:
+    1.  It serves the built React application's static files (`index.html`, CSS, JS).
+    2.  It provides a `/vertex-ai-proxy` endpoint that securely forwards requests to the Google Vertex AI API, using the Cloud Run service's identity for authentication.
+- **Deployment**: The entire application is containerized and deployed as a single service on Google Cloud Run.
+
+## Project Structure
+
+```
+/
+├── components/     # React UI components
+├── data/           # Static data, images, and menu information
+├── services/       # Modules for calling external services (Vertex AI, Weather)
+├── App.tsx         # Main React application component
+├── server.cjs      # Node.js Express backend server
+├── Dockerfile      # Docker configuration for building the production container
+└── vite.config.ts  # Vite configuration, including the local dev proxy
+```
 
 ## Instructions
 
 **Prerequisites**:
 - [Google Cloud SDK / gcloud CLI](https://cloud.google.com/sdk/docs/install)
-- [Node.js](https://nodejs.org/en/download/) (v20 or higher recommended) and npm/yarn/pnpm
-- [Docker](https://www.docker.com/products/docker-desktop/) (for local Docker testing)
+- [Node.js](https://nodejs.org/en/download/) (v20 or higher recommended) and npm
+- [Docker](https://www.docker.com/products/docker-desktop/) (for building and testing container locally)
 
 ### 1. Local Development
 
@@ -17,58 +48,69 @@ To run the application locally in development mode:
     ```bash
     npm install
     ```
-2.  **Create a `.env` file**: Create a `.env` file in the root directory and add your Google Cloud project details. This is used by the backend server.
+2.  **Authenticate with Google Cloud**: For the backend server to access Vertex AI locally, you need to provide Application Default Credentials (ADC) by authenticating your `gcloud` CLI.
+    ```bash
+    gcloud auth application-default login
     ```
+3.  **Create a `.env` file (Optional)**: For local development, the server can automatically detect your Project ID and Location from your `gcloud` configuration or the GCP metadata server. However, you can explicitly override them by creating a `.env` file in the root directory.
+    ```
+    # .env (optional, overrides auto-detection)
     PROJECT_ID=YOUR_GOOGLE_CLOUD_PROJECT_ID
-    LOCATION=us-central1 # Or your desired Vertex AI region
+    LOCATION=us-central1
     ```
-    *Note: The `GEMINI_API_KEY` environment variable is not used by the backend server directly, as it leverages Google Cloud's Application Default Credentials via the `@google-cloud/vertexai` SDK. Ensure your `gcloud` CLI is authenticated to your project.*
-
-3.  **Start the development servers**:
+4.  **Start the development servers**:
     ```bash
     npm run dev
     ```
-    This command uses `concurrently` to start both the Vite frontend development server (typically on `http://localhost:5173`) and the Node.js backend API server (on `http://localhost:3000`). The Vite server is configured to proxy API requests to the backend server.
+    This command starts both the Vite frontend server (on `http://localhost:5173`) and the Node.js backend server (on `http://localhost:8080`). The Vite server will proxy API requests to the backend.
 
 ### 2. Local Docker Testing
 
-To build and run the application using Docker locally:
+To build and run the final production container locally:
 
-1.  **Ensure `.env` file exists**: Make sure you have created the `.env` file as described in the "Local Development" section.
-
-2.  **Build the Docker image**:
+1.  **Build the Docker image**:
     ```bash
     docker build -t aetheria-restaurant:slim .
     ```
-    *Note: The image name `aetheria-restaurant:slim` is used here. You can choose a different name/tag.*
-
-3.  **Run the Docker container**:
+2.  **Run the Docker container**:
     ```bash
-    docker run -p 3000:3000 --env-file .env aetheria-restaurant:slim
+    docker run -p 8080:8080 aetheria-restaurant:slim
     ```
-    *   `-p 3000:3000`: Maps port 3000 from your host to port 3000 in the container.
-    *   `--env-file .env`: Injects environment variables from your local `.env` file into the container. This is crucial for `PROJECT_ID` and `LOCATION`.
-    *   The `NODE_ENV` inside the container will default to `production`, which tells the `server.cjs` to serve the static frontend files.
-    
-    Access the application at `http://localhost:3000`.
+    -   This command maps port `8080` from your local machine to port `8080` inside the container.
+    -   The server inside the container will automatically detect the Project ID and Location if you have ADC set up.
+    -   Access the application at `http://localhost:8080`.
 
 ### 3. Deploy to Cloud Run
 
-To deploy the full-stack application to Google Cloud Run, building directly from source:
+To deploy the full-stack application to Google Cloud Run, building directly from your local source code:
 
 1.  **Deploy to Cloud Run**:
     ```bash
-    gcloud run deploy aetheria-restaurant \\
-        --source=. \\
-        --platform managed \\
-        --region us-central1 \\
-        --allow-unauthenticated \\
-        --set-env-vars PROJECT_ID=YOUR_PROJECT_ID,LOCATION=us-central1,NODE_ENV=production
+    gcloud run deploy aetheria-restaurant \
+        --source=. \
+        --platform managed \
+        --region us-central1 \
+        --allow-unauthenticated
     ```
-    *   Replace `YOUR_PROJECT_ID` with your actual Google Cloud Project ID.
-    *   `--source=.`: This tells Cloud Run to build the container image directly from your local source code using Cloud Build.
-    *   `--set-env-vars PROJECT_ID=YOUR_PROJECT_ID,LOCATION=us-central1,NODE_ENV=production`: This is critical.
-        *   `PROJECT_ID` and `LOCATION` are used by the backend to connect to Vertex AI.
-        *   `NODE_ENV=production` ensures that the `server.cjs` script within the container serves the built static frontend assets in addition to the API routes.
+    -   `--source=.`: This tells Cloud Run to build the container image from your local source code using Google Cloud Build.
+    -   **Note**: You no longer need to set `PROJECT_ID` or `LOCATION` as environment variables. The server now intelligently detects them from the Cloud Run environment. The `NODE_ENV` is also set to `production` automatically within the `Dockerfile`.
 
-    *Note: If your local `.env` file contains sensitive information that should not be directly passed via `--set-env-vars`, consider using Google Secret Manager for production environments. However, `PROJECT_ID`, `LOCATION`, and `NODE_ENV` are generally safe to set this way.*
+### Troubleshooting
+
+#### 403 Permission Denied Errors with Vertex AI
+
+If, after deploying, you see `403 Forbidden` errors in your logs with the message `Permission 'aiplatform.endpoints.predict' denied`, it means the service account running your Cloud Run instance needs permission to access Vertex AI.
+
+1.  **Identify your Service Account**: By default, Cloud Run uses the **Compute Engine default service account**. You can find the exact email on the "Security" tab of your Cloud Run service in the Google Cloud Console.
+
+2.  **Grant the "Vertex AI User" role**: Use the `gcloud` command below, replacing the placeholder values with your actual project ID and service account email.
+    ```bash
+    gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
+        --member="serviceAccount:YOUR_SERVICE_ACCOUNT_EMAIL" \
+        --role="roles/aiplatform.user"
+    ```
+    The permissions may take a few minutes to apply.
+
+## Testing
+
+There are currently no automated unit or integration tests configured for this project.
