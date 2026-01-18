@@ -27,6 +27,9 @@ const Layout: React.FC = () => {
     if (location.pathname === '/' && !location.hash) {
       // If on the homepage and no specific hash, scroll to top
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (location.pathname === '/ai-examples' && !location.hash) {
+      // If on the AI Examples page and no specific hash, scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (location.hash) {
       // If there's a hash, scroll to the element
       const id = location.hash.replace('#', '');
