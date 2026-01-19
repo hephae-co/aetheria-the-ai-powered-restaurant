@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import AIInsight from './AIInsight';
 import { generateManagerResponse } from '../services/geminiService';
@@ -27,23 +26,25 @@ const Reviews: React.FC = () => {
   };
 
   return (
-    <section id="reviews" className="relative py-20 bg-primary rounded-lg overflow-hidden">
-      <div className="absolute top-4 right-4 z-10">
-        <AIInsight title="AI for Customer Service">
-          <p>This interactive tool demonstrates how AI can assist in customer relations. When you submit a review, it's sent to an AI model.</p>
-          <p>The AI is given a specific "persona" – that of our professional and empathetic restaurant manager. It analyzes the sentiment and key points of your review and then drafts a response that is validating, constructive, and aligned with our brand's voice.</p>
-          <p>This can help business owners save time and ensure consistently high-quality communication.</p>
-          <p className="font-bold text-accent mt-2">Model Used: Gemini 2.5 Flash</p>
-        </AIInsight>
-      </div>
-      <div className="px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="text-4xl font-bold font-serif mb-4 text-accent">AI-Powered Hospitality</h2>
-        <p className="max-w-3xl mx-auto mb-12 text-text-secondary">
-          See how our AI can draft thoughtful and professional responses to customer feedback. Type in a sample review below and see it in action.
-        </p>
+    <div className="relative group">
+      {/* Holographic Border Effect */}
+      <div className={`absolute -inset-px bg-gradient-to-br from-purple-500/50 to-pink-600 rounded-lg blur opacity-30 group-hover:opacity-60 transition duration-500 animate-pulse`}></div>
+      
+      <section id="reviews" className="relative bg-primary rounded-lg overflow-hidden">
+        <div className="px-4 sm:px-6 lg:px-8 py-12 text-center">
+          {/* AI Insight button */}
+          <div className="absolute top-4 right-4 z-10">
+            <AIInsight title="AI for Customer Service">
+              <p>This interactive tool demonstrates how AI can assist in customer relations. When you submit a review, it's sent to an AI model.</p>
+              <p>The AI is given a specific "persona" – that of our professional and empathetic restaurant manager. It analyzes the sentiment and key points of your review and then drafts a response that is validating, constructive, and aligned with our brand's voice.</p>
+              <p className="font-bold text-accent mt-2">Model Used: Gemini 2.5 Flash</p>
+            </AIInsight>
+          </div>
 
-        <div className="max-w-3xl mx-auto">
-          <form onSubmit={handleSubmit}>
+
+
+
+          <form onSubmit={handleSubmit} className="text-left mx-auto max-w-md mb-8">
             <textarea
               value={review}
               onChange={(e) => setReview(e.target.value)}
@@ -59,17 +60,19 @@ const Reviews: React.FC = () => {
             </button>
           </form>
 
-          {isLoading && <div className="mt-8"><Loader text="Composing response..." /></div>}
-          
-          {response && (
-            <div className="mt-8 text-left bg-secondary p-6 rounded-lg border border-gray-700 animate-fade-in">
-              <h3 className="font-bold text-lg text-accent mb-2">A Message from Our Manager:</h3>
-              <p className="text-text-primary whitespace-pre-wrap">{response}</p>
-            </div>
-          )}
+          <div className="mx-auto max-w-md">
+            {isLoading && <div className="mt-8"><Loader text="Composing response..." /></div>}
+            
+            {response && (
+              <div className="mt-8 text-left bg-secondary p-6 rounded-lg border border-gray-700 animate-fade-in">
+                <h3 className="font-bold text-lg text-accent mb-2">A Message from Our Manager:</h3>
+                <p className="text-text-primary whitespace-pre-wrap">{response}</p>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 };
 

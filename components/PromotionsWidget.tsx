@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
-const PromotionsWidget: React.FC = () => {
+const PromotionsWidget: React.FC<PropsWithChildren> = ({ children }) => {
   return (
-    <div className="relative group w-64 h-full">
-      {/* Animated Border/Glow Effect */}
-      <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
+    <div className="relative group h-full rounded-lg">
+
       
-      <div className="relative h-full bg-black/80 backdrop-blur-xl p-4 rounded-xl border border-white/10 shadow-2xl flex flex-col justify-between gap-3">
+      <div className="relative h-full bg-black/80 backdrop-blur-xl p-4 rounded-lg border border-white/10 shadow-2xl flex flex-col justify-between gap-3">
         
+        <div className="absolute top-0 right-0 z-10 p-1">{children}</div>
+
         {/* Header */}
         <div>
             <div className="flex items-center justify-between mb-2">

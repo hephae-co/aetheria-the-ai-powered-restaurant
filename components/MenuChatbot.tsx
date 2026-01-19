@@ -1,5 +1,5 @@
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, PropsWithChildren } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { ChatMessage } from '../types';
 import { processChatbotMessage } from '../services/geminiService';
@@ -7,11 +7,7 @@ import Loader from './Loader';
 
 const CHATBOT_BACKGROUND_IMAGE = 'https://storage.googleapis.com/hephae/aetheria/data/restaurant1.png';
 
-interface MenuChatbotProps {
-  isFullScreen?: boolean;
-}
-
-const MenuChatbot: React.FC<MenuChatbotProps> = ({ isFullScreen = false }) => {
+const MenuChatbot: React.FC<PropsWithChildren> = ({ children }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([
     { sender: 'ai', text: "Welcome to Aetheria. I am your AI Concierge. I can assist you with menu recommendations, restaurant details, or even booking a table. How may I serve you today?" }
   ]);
@@ -49,10 +45,6 @@ const MenuChatbot: React.FC<MenuChatbotProps> = ({ isFullScreen = false }) => {
     setIsLoading(true);
 
     try {
-      // Pass the current history (excluding the new user message we just added locally for optimistic UI)
-      // Actually, passing the updated state is safer, but due to closure we use 'messages' + 'userMessage'
-      // Or we can just pass the prev messages and the current input text separately.
-      // For simplicity in the service, we just pass the history array.
       const currentHistory = [...messages, userMessage];
       const aiResponseText = await processChatbotMessage(input, currentHistory);
       
@@ -68,13 +60,14 @@ const MenuChatbot: React.FC<MenuChatbotProps> = ({ isFullScreen = false }) => {
 
   return (
     <div
-      className={`shadow-2xl rounded-lg border border-secondary relative overflow-hidden ${isFullScreen ? 'h-[calc(100vh-80px)] w-full flex flex-col' : 'max-w-2xl mx-auto'}`}
+      className="rounded-lg border border-secondary relative overflow-hidden max-w-2xl mx-auto h-[calc(100vh-80px)] flex flex-col"
       style={CHATBOT_BACKGROUND_IMAGE ? { backgroundImage: `url(${CHATBOT_BACKGROUND_IMAGE})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
     >
+      <div className="absolute top-0 right-0 z-10 p-2">{children}</div> {/* AIInsight button */}
       {CHATBOT_BACKGROUND_IMAGE && <div className="absolute inset-0 bg-black opacity-10 z-0"></div>} {/* Reduced Overlay for debugging */}
       <div
         ref={chatContainerRef}
-        className={`p-4 overflow-y-auto flex flex-col space-y-4 relative z-10 ${isFullScreen ? 'flex-grow' : 'h-96'}`}
+        className="p-4 overflow-y-auto flex flex-col space-y-4 relative z-10 flex-grow"
       >
         {messages.map((msg, index) => (
           <div key={index} className={`flex items-end ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>

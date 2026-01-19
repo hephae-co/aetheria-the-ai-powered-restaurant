@@ -1,39 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, PropsWithChildren } from 'react';
 
-const WaitTimeWidget: React.FC = () => {
+const WaitTimeWidget: React.FC<PropsWithChildren> = ({ children }) => {
   const [partySize, setPartySize] = useState<number>(4);
   const [waitTime, setWaitTime] = useState<number>(0);
   const [isBusy, setIsBusy] = useState<boolean>(false);
 
   // Simulate wait time calculation
   const calculateWaitTime = (size: number) => {
-    // Base calculation: 15 mins base + 5 mins per person
-    // Add some randomness for "simulation" realism
     const base = 15;
     const perPerson = 5;
     const randomFactor = Math.floor(Math.random() * 10); 
-    
-    // Simulate busy times (e.g., if it's "busy" add more time)
-    // For this demo, we'll just use a simple multiplier for larger groups
     const sizeMultiplier = size > 6 ? 1.5 : 1;
-
     return Math.round((base + (size * perPerson) + randomFactor) * sizeMultiplier);
   };
 
   useEffect(() => {
-    // Recalculate when party size changes
     const time = calculateWaitTime(partySize);
     setWaitTime(time);
     setIsBusy(time > 45); // Consider it "busy" if wait is over 45 mins
   }, [partySize]);
 
   return (
-    <div className="relative w-64 group h-full">
-      {/* Holographic Border Effect */}
-      <div className={`absolute -inset-0.5 bg-gradient-to-br from-accent/50 to-blue-500/50 rounded-xl blur opacity-30 group-hover:opacity-60 transition duration-500 animate-pulse`}></div>
+    <div className="relative group h-full rounded-lg">
       
-      <div className="relative bg-black/80 backdrop-blur-xl p-4 rounded-xl border border-white/10 shadow-2xl flex flex-col gap-3 h-full justify-between">
+      <div className="relative bg-black/80 backdrop-blur-xl p-4 rounded-lg border border-white/10 shadow-2xl flex flex-col gap-3 h-full justify-between">
         
+        <div className="absolute top-0 right-0 z-10 p-1">{children}</div>
+
         {/* Header with Status Dot */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
