@@ -26,12 +26,12 @@ const Reviews: React.FC = () => {
   };
 
   return (
-    <div className="relative group">
+    <div className="relative group mx-auto max-w-2xl">
       {/* Holographic Border Effect */}
       <div className={`absolute -inset-px bg-gradient-to-br from-purple-500/50 to-pink-600 rounded-lg blur opacity-30 group-hover:opacity-60 transition duration-500 animate-pulse`}></div>
       
       <section id="reviews" className="relative bg-primary rounded-lg overflow-hidden">
-        <div className="px-4 sm:px-6 lg:px-8 py-12 text-center">
+        <div className="px-4 sm:px-6 lg:px-8 py-16 text-center">
           {/* AI Insight button */}
           <div className="absolute top-4 right-4 z-10">
             <AIInsight title="AI for Customer Service">
