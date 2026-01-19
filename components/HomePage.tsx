@@ -8,7 +8,7 @@ import AIInsight from './AIInsight';
 
 const HomePage: React.FC = () => {
   return (
-    <div className="flex flex-col space-y-4">
+    <div className="flex flex-col space-y-12">
       {/* AI Concierge Container (Styled but no holographic effect here) */}
       <div className="bg-primary rounded-lg px-12 py-6 shadow-md w-full relative">
         <h2 className="text-3xl font-bold font-serif mb-8 text-accent text-center">AI Concierge</h2>

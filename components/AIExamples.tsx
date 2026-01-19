@@ -336,13 +336,13 @@ const AIExamples: React.FC = () => {
             <div className="px-4 sm:px-6 lg:px-8">
                 <h2 className="text-4xl font-bold text-center font-serif mb-12 text-accent">Interactive AI Examples</h2>
                 
-                <div className="text-center relative pb-4"> 
+                <div className="text-center relative pb-4 mb-12"> 
                     <img id="aetheria-logo" src="https://storage.googleapis.com/hephae/aetheria/data/aetheria-logo.png" alt="Aetheria Logo" className="mx-auto mb-4 h-16 w-auto object-contain" />
                     <h1 className="font-serif text-4xl md:text-6xl font-bold text-accent">The Aetheria AI Revolution</h1>
                     <p className="mt-4 text-lg md:text-xl text-text-secondary max-w-3xl mx-auto">Interactive examples of Generative AI powering the modern restaurant.</p>
                 </div>
 
-                <main className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <main className="grid grid-cols-1 md:grid-cols-2 gap-12">
 
                     {/* Card 1: AI Chatbot */}
                     <div className="bg-primary border border-secondary rounded-lg shadow-lg p-6 md:p-8 flex flex-col transition-transform duration-300 ease-in-out hover:scale-105">
