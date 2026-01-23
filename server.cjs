@@ -18,7 +18,7 @@ require('dotenv').config(); // Load environment variables from .env file
 
 async function startServer() {
   const app = express();
-  const port = process.env.PORT || 3000;
+  const port = process.env.PROXY_PORT || 3000;
 
   let projectId = process.env.PROJECT_ID || process.env.GOOGLE_CLOUD_PROJECT;
   let location = process.env.LOCATION || process.env.GOOGLE_CLOUD_LOCATION;
