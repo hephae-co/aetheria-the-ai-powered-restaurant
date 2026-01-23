@@ -10,7 +10,7 @@ The application follows a simple client-server model where the backend acts as a
 [Client Browser] <--> [Vite/Node.js on Cloud Run] <--> [Google Vertex AI API]
        |                      | (Express Server)
        |                      |
-       <----------------------> 
+       <---------------------->
         (Serves React App)
 ```
 
@@ -64,21 +64,38 @@ To run the application locally in development mode:
     ```
     This command starts both the Vite frontend server (on `http://localhost:5173`) and the Node.js backend server (on `http://localhost:8080`). The Vite server will proxy API requests to the backend.
 
-### 2. Local Docker Testing
+## Usage
 
-To build and run the final production container locally:
+### Local Build (Mac M1/M2)
 
-1.  **Build the Docker image**:
-    ```bash
-    docker build -t aetheria-restaurant:slim .
-    ```
-2.  **Run the Docker container**:
-    ```bash
-    docker run -p 8080:8080 aetheria-restaurant:slim
-    ```
-    -   This command maps port `8080` from your local machine to port `8080` inside the container.
-    -   The server inside the container will automatically detect the Project ID and Location if you have ADC set up.
-    -   Access the application at `http://localhost:8080`.
+For Macbook Silicone M2 environments, you can build a local Docker image using the following commands:
+
+```sh
+export SERVICE_NAME=hephae-co-aetheria-restaurant
+export TAG=$(git branch --show-current)-$(git rev-parse --short HEAD)
+docker build --platform linux/amd64 . -t ${SERVICE_NAME}:${TAG}
+```
+
+### Deployment Build
+
+After the local deployment has been tested, the git branch merged to main, and a new tag has been created, you can create a deployment build with the following commands:
+
+```sh
+export SERVICE_NAME=hephae-co-aetheria-restaurant
+export TAG=$(git describe --abbrev=0)
+docker build --platform linux/amd64 . -t ${SERVICE_NAME}:${TAG}
+```
+
+### Running the Container
+
+After building the image, run it with the following command. Ensure you have a `.env` file in the root directory containing your `PROJECT_ID`, `LOCATION`, and `GEMINI_API_KEY` (as described in the "Local Development" section):
+
+```sh
+docker run -p 8080:8080 -it \
+  --env-file ./.env \
+  --name ${SERVICE_NAME} \
+  --rm ${SERVICE_NAME}:${TAG}
+```
 
 ### 3. Deploy to Cloud Run
 
@@ -86,7 +103,7 @@ To deploy the full-stack application to Google Cloud Run, building directly from
 
 1.  **Deploy to Cloud Run**:
     ```bash
-    gcloud run deploy aetheria-restaurant \
+    gcloud run deploy hephae-co-aetheria-restaurant \
         --source=. \
         --platform managed \
         --region us-central1 \
@@ -114,3 +131,17 @@ If, after deploying, you see `403 Forbidden` errors in your logs with the messag
 ## Testing
 
 There are currently no automated unit or integration tests configured for this project.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+Copyright (c) 2026 Hephae.co
+
+## Authors and Acknowledgements
+
+*   **Hephae.co**
+
+## Contact
+
+For questions or support, please contact us at [contact@hephae.co](mailto:contact@hephae.co).

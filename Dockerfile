@@ -1,48 +1,75 @@
-# Stage 1: Build the frontend
-FROM node:22-slim AS builder
+# Stage 1: Build the application
+FROM node:24.7.0-alpine AS build
 
+# Create a non-root user and group
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
+# Install bun globally as root
+RUN npm install -g bun
+
+# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json to leverage Docker cache
-COPY package.json package-lock.json* ./
+# Copy package configuration files
+COPY package.json package-lock.json* bun.lockb* ./
 
-# Install all dependencies
-RUN npm install
+# Install dependencies - using bun if available, otherwise npm
+RUN if [ -f bun.lockb ]; then \
+      bun install; \
+    else \
+      npm install; \
+    fi
 
 # Copy the rest of the application source code
 COPY . .
 
-# Build the frontend
+# Build the project
 RUN npm run build
 
-# Stage 2: Create the final production image
-FROM node:22-slim
+# Generate sitemap after the build
+# RUN npm run generate-sitemap
 
+# Change ownership of the app directory to the non-root user
+RUN chown -R appuser:appgroup /app
+
+# Switch to the non-root user
+USER appuser
+
+# Stage 2: Serve the static files with Nginx and run the Node.js server
+FROM nginx:1.24-alpine
+
+# Install Node.js
+RUN apk add --update nodejs
+
+# Copy the custom Nginx configuration
+COPY config/nginx.conf /etc/nginx/nginx.conf
+
+# Create a temporary directory for Nginx and set permissions
+RUN mkdir -p /tmp/nginx && \
+    chown -R nginx:nginx /tmp/nginx
+
+# Copy the built assets from the build stage
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Copy the Node.js application from the build stage
+COPY --from=build /app /app
+
+# Set the working directory for the Node.js application
 WORKDIR /app
 
-# Copy package.json and package-lock.json from the builder stage
-COPY --from=builder /app/package.json /app/package-lock.json* ./
+# Grant permissions to nginx user for the app directory
+RUN chown -R nginx:nginx /app
 
-# Install only production dependencies
-RUN npm install --omit=dev
+# Copy the startup scripts and make them executable
+COPY bin/start.sh /usr/local/bin/start.sh
+COPY bin/env.sh /docker-entrypoint.d/env.sh
+RUN chmod +x /usr/local/bin/start.sh /docker-entrypoint.d/env.sh
 
-# Copy the built frontend assets from the builder stage
-COPY --from=builder /app/dist ./dist
+# Switch to the non-root user
+USER nginx
 
-# Copy the public directory
-COPY --from=builder /app/public ./public
-
-# Copy the server script
-COPY --from=builder /app/server.cjs .
-
-# Copy the aetheria directory into the dist folder
-COPY --from=builder /app/aetheria ./dist/aetheria
-
-# Expose the port the server runs on
+# Expose port 8080 for the Nginx server
 EXPOSE 8080
 
-# Set the node environment to production
-ENV NODE_ENV=production
-
-# The command to run the application
-CMD ["node", "server.cjs"]
+# Start the Node.js server and Nginx when the container launches
+CMD ["/usr/local/bin/start.sh"]
