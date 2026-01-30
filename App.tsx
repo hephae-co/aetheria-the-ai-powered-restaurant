@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 import { Routes, Route } from 'react-router-dom';
@@ -9,11 +8,7 @@ import HomePage from './components/HomePage';
 
 import AIExamples from './components/AIExamples';
 
-
-
-const App: React.FC = () => {
-
-  return (
+const App: React.FC = () => (
 
     <Routes>
 
@@ -27,12 +22,6 @@ const App: React.FC = () => {
 
     </Routes>
 
-  );
-
-};
-
-
+);
 
 export default App;
-
-

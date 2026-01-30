@@ -1,9 +1,8 @@
 import React from 'react';
 
-const AIBanner: React.FC = () => {
-  return (
+const AIBanner: React.FC = () => (
     <div className="relative z-50 bg-primary text-text-primary py-3 text-center shadow-lg mb-16">
-      <a 
+      <a
         href="/ai-examples"
         className="text-accent hover:underline font-semibold text-lg flex items-center justify-center space-x-2"
       >
@@ -14,7 +13,6 @@ const AIBanner: React.FC = () => {
         </svg>
       </a>
     </div>
-  );
-};
+);
 
 export default AIBanner;

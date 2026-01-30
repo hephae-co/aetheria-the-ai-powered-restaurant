@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { getCurrentWeather } from '../services/weatherService';
+import getCurrentWeather from '../services/weatherService';
 import { getWeatherBasedRecommendations } from '../services/geminiService';
-import { MenuItem } from '../types';
 import Loader from './Loader';
 import { MENU_ITEMS } from '../constants';
+
+const getWeatherIcon = (condition: string) => {
+  const lowerCondition = condition.toLowerCase();
+  if (lowerCondition.includes('rain')) return '🌧️';
+  if (lowerCondition.includes('cloud')) return '☁️';
+  if (lowerCondition.includes('clear') || lowerCondition.includes('sunny')) return '☀️';
+  if (lowerCondition.includes('snow')) return '❄️';
+  if (lowerCondition.includes('thunder')) return '⚡';
+  return '🌤️';
+};
 
 interface WeatherMenuWidgetProps {
   onRecommendations: (recommendedItemNames: string[]) => void;
@@ -21,7 +30,7 @@ const WeatherMenuWidget: React.FC<WeatherMenuWidgetProps> = ({ onRecommendations
     };
 
     fetchWeather();
-    
+
     // Set initial time
     setCurrentTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
 
@@ -41,11 +50,11 @@ const WeatherMenuWidget: React.FC<WeatherMenuWidgetProps> = ({ onRecommendations
         weather.condition,
         currentTime,
         weather.temp,
-        MENU_ITEMS
+        MENU_ITEMS,
       );
       onRecommendations(recommendations);
     } catch (error) {
-      console.error("Failed to get recommendations", error);
+      console.error('Failed to get recommendations', error);
     } finally {
       setLoading(false);
     }
@@ -65,26 +74,18 @@ const WeatherMenuWidget: React.FC<WeatherMenuWidgetProps> = ({ onRecommendations
           <div className="text-text-secondary capitalize">{weather.condition}</div>
         </div>
       </div>
-      
+
       <button
         onClick={handleGetRecommendations}
         disabled={loading}
-        className="w-full py-2 px-4 bg-accent text-primary font-bold rounded-lg hover:bg-yellow-400 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full py-2 px-4 bg-accent text-primary font-bold rounded-lg
+        hover:bg-yellow-400 transition-all transform hover:scale-105
+        disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {loading ? <Loader text="Consulting AI Chef..." /> : "Get Weather-Based Picks"}
+        {loading ? <Loader text="Consulting AI Chef..." /> : 'Get Weather-Based Picks'}
       </button>
     </div>
   );
-};
-
-const getWeatherIcon = (condition: string) => {
-  const lowerCondition = condition.toLowerCase();
-  if (lowerCondition.includes('rain')) return '🌧️';
-  if (lowerCondition.includes('cloud')) return '☁️';
-  if (lowerCondition.includes('clear') || lowerCondition.includes('sunny')) return '☀️';
-  if (lowerCondition.includes('snow')) return '❄️';
-  if (lowerCondition.includes('thunder')) return '⚡';
-  return '🌤️';
 };
 
 export default WeatherMenuWidget;

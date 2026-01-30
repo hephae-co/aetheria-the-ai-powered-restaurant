@@ -11,32 +11,6 @@ interface WeatherData {
 const LAT = 40.7128;
 const LON = -74.0060;
 
-export const getCurrentWeather = async (): Promise<WeatherData> => {
-  try {
-    const response = await axios.get(
-      `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,weather_code,is_day`
-    );
-
-    const current = response.data.current;
-    
-    return {
-      temperature: current.temperature_2m,
-      condition: getWeatherCondition(current.weather_code),
-      isDay: current.is_day === 1,
-      city: 'New York',
-    };
-  } catch (error) {
-    console.error("Error fetching weather:", error);
-    // Fallback data
-    return {
-      temperature: 20,
-      condition: 'Sunny',
-      isDay: true,
-      city: 'New York',
-    };
-  }
-};
-
 const getWeatherCondition = (code: number): string => {
   // WMO Weather interpretation codes (WW)
   // https://open-meteo.com/en/docs
@@ -50,3 +24,31 @@ const getWeatherCondition = (code: number): string => {
   if (code >= 95) return 'Thunderstorm';
   return 'Cloudy'; // Default
 };
+
+const getCurrentWeather = async (): Promise<WeatherData> => {
+  try {
+    const response = await axios.get(
+      `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,weather_code,is_day`,
+    );
+
+    const { current } = response.data;
+
+    return {
+      temperature: current.temperature_2m,
+      condition: getWeatherCondition(current.weather_code),
+      isDay: current.is_day === 1,
+      city: 'New York',
+    };
+  } catch (error) {
+    console.error('Error fetching weather:', error);
+    // Fallback data
+    return {
+      temperature: 20,
+      condition: 'Sunny',
+      isDay: true,
+      city: 'New York',
+    };
+  }
+};
+
+export default getCurrentWeather;

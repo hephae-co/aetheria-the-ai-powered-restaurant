@@ -1,75 +1,52 @@
-# Stage 1: Build the application
-FROM node:24.7.0-alpine AS build
+# Stage 1: Build the React application
+FROM node:20-alpine AS builder
 
-# Create a non-root user and group
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-
-# Install bun globally as root
-RUN npm install -g bun
-
-# Set the working directory
 WORKDIR /app
 
-# Copy package configuration files
-COPY package.json package-lock.json* bun.lockb* ./
-
-# Install dependencies - using bun if available, otherwise npm
-RUN if [ -f bun.lockb ]; then \
-      bun install; \
-    else \
-      npm install; \
-    fi
+# Copy package configuration and install all dependencies (including devDependencies)
+COPY package*.json ./
+RUN npm install
 
 # Copy the rest of the application source code
 COPY . .
 
-# Build the project
+# Build the application, creating the static assets in /app/dist
 RUN npm run build
 
-# Generate sitemap after the build
-# RUN npm run generate-sitemap
+# Stage 2: Create the final, lean production image
+FROM node:20-alpine
 
-# Change ownership of the app directory to the non-root user
-RUN chown -R appuser:appgroup /app
-
-# Switch to the non-root user
-USER appuser
-
-# Stage 2: Serve the static files with Nginx and run the Node.js server
-FROM nginx:1.24-alpine
-
-# Install Node.js
-RUN apk add --update nodejs
-
-# Copy the custom Nginx configuration
-COPY config/nginx.conf /etc/nginx/nginx.conf
-
-# Create a temporary directory for Nginx and set permissions
-RUN mkdir -p /tmp/nginx && \
-    chown -R nginx:nginx /tmp/nginx
-
-# Copy the built assets from the build stage
-COPY --from=build /app/dist /usr/share/nginx/html
-
-# Copy the Node.js application from the build stage
-COPY --from=build /app /app
-
-# Set the working directory for the Node.js application
 WORKDIR /app
 
-# Grant permissions to nginx user for the app directory
-RUN chown -R nginx:nginx /app
+# Create a dedicated, non-root user for security
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 expressjs
 
-# Copy the startup scripts and make them executable
-COPY bin/start.sh /usr/local/bin/start.sh
-COPY bin/env.sh /docker-entrypoint.d/env.sh
-RUN chmod +x /usr/local/bin/start.sh /docker-entrypoint.d/env.sh
+# Copy only the necessary files from the builder stage
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/server.mjs .
+
+# Install only production dependencies
+RUN npm install --omit=dev
+
+# Install tini for proper signal handling
+RUN apk add --no-cache tini
+
+# Copy the built static assets from the builder stage
+COPY --from=builder /app/dist ./dist
 
 # Switch to the non-root user
-USER nginx
+USER expressjs
 
-# Expose port 8080 for the Nginx server
+# Set environment variables for production
+ENV NODE_ENV=production
+ENV PORT=8080
+
+# Expose the port the app runs on
 EXPOSE 8080
 
-# Start the Node.js server and Nginx when the container launches
-CMD ["/usr/local/bin/start.sh"]
+# Use tini as the entrypoint to handle signals
+ENTRYPOINT ["/sbin/tini", "--"]
+
+# The command to start the server, passed to tini
+CMD ["node", "server.mjs"]

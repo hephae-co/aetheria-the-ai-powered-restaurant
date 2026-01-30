@@ -6,8 +6,7 @@ interface MenuItemProps {
   isRecommended?: boolean;
 }
 
-const MenuItem: React.FC<MenuItemProps> = ({ item, isRecommended = false }) => {
-  return (
+const MenuItem: React.FC<MenuItemProps> = ({ item, isRecommended = false }) => (
     <div className={`bg-primary rounded-xl shadow-2xl overflow-hidden border transition-all duration-300 hover:scale-102 hover:shadow-glow animate-fade-in relative ${isRecommended ? 'border-accent shadow-[0_0_20px_rgba(255,215,0,0.3)] scale-105 z-10' : 'border-accent-light'}`}>
       {isRecommended && (
         <div className="absolute top-4 right-4 z-20 bg-accent text-primary px-3 py-1 rounded-full text-xs font-bold shadow-lg animate-bounce">
@@ -30,7 +29,6 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, isRecommended = false }) => {
         <p className="text-text-primary text-base">{item.description}</p>
       </div>
     </div>
-  );
-};
+);
 
 export default MenuItem;

@@ -9,7 +9,7 @@ const WaitTimeWidget: React.FC<PropsWithChildren> = ({ children }) => {
   const calculateWaitTime = (size: number) => {
     const base = 15;
     const perPerson = 5;
-    const randomFactor = Math.floor(Math.random() * 10); 
+    const randomFactor = Math.floor(Math.random() * 10);
     const sizeMultiplier = size > 6 ? 1.5 : 1;
     return Math.round((base + (size * perPerson) + randomFactor) * sizeMultiplier);
   };
@@ -22,9 +22,9 @@ const WaitTimeWidget: React.FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <div className="relative group h-full rounded-lg">
-      
+
       <div className="relative bg-black/80 backdrop-blur-xl p-4 rounded-lg border border-white/10 shadow-2xl flex flex-col gap-3 h-full justify-between">
-        
+
         <div className="absolute top-0 right-0 z-10 p-1">{children}</div>
 
         {/* Header with Status Dot */}
@@ -53,14 +53,14 @@ const WaitTimeWidget: React.FC<PropsWithChildren> = ({ children }) => {
         <div className="flex items-center justify-between bg-white/5 rounded-lg p-1.5 border border-white/5">
           <span className="text-[10px] text-white/40 font-medium pl-1 uppercase">Party</span>
           <div className="flex items-center gap-2">
-            <button 
+            <button
               onClick={() => setPartySize(Math.max(1, partySize - 1))}
               className="w-5 h-5 flex items-center justify-center rounded bg-white/10 text-white hover:bg-accent hover:text-black transition-colors"
             >
               -
             </button>
             <span className="text-sm font-bold text-white w-4 text-center">{partySize}</span>
-            <button 
+            <button
               onClick={() => setPartySize(Math.min(20, partySize + 1))}
               className="w-5 h-5 flex items-center justify-center rounded bg-white/10 text-white hover:bg-accent hover:text-black transition-colors"
             >

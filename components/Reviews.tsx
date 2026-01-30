@@ -19,7 +19,7 @@ const Reviews: React.FC = () => {
       setResponse(managerResponse);
     } catch (error) {
       console.error(error);
-      setResponse("We apologize for the issues you experienced. We are looking into it.");
+      setResponse('We apologize for the issues you experienced. We are looking into it.');
     } finally {
       setIsLoading(false);
     }
@@ -28,21 +28,26 @@ const Reviews: React.FC = () => {
   return (
     <div className="relative group mx-auto max-w-2xl">
       {/* Holographic Border Effect */}
-      <div className={`absolute -inset-px bg-gradient-to-br from-purple-500/50 to-pink-600 rounded-lg blur opacity-30 group-hover:opacity-60 transition duration-500 animate-pulse`}></div>
-      
+      <div className={'absolute -inset-px bg-gradient-to-br from-purple-500/50 to-pink-600 rounded-lg blur opacity-30 group-hover:opacity-60 transition duration-500 animate-pulse'}></div>
+
       <section id="reviews" className="relative bg-primary rounded-lg overflow-hidden">
         <div className="px-4 sm:px-6 lg:px-8 py-16 text-center">
           {/* AI Insight button */}
           <div className="absolute top-4 right-4 z-10">
             <AIInsight title="AI for Customer Service">
-              <p>This interactive tool demonstrates how AI can assist in customer relations. When you submit a review, it's sent to an AI model.</p>
-              <p>The AI is given a specific "persona" – that of our professional and empathetic restaurant manager. It analyzes the sentiment and key points of your review and then drafts a response that is validating, constructive, and aligned with our brand's voice.</p>
+              <p>
+                This interactive tool demonstrates how AI can assist in customer
+                relations. When you submit a review, it's sent to an AI model.
+              </p>
+              <p>
+                The AI is given a specific "persona" – that of our professional and
+                empathetic restaurant manager. It analyzes the sentiment and key
+                points of your review and then drafts a response that is validating,
+                constructive, and aligned with our brand's voice.
+              </p>
               <p className="font-bold text-accent mt-2">Model Used: Gemini 2.5 Flash</p>
             </AIInsight>
           </div>
-
-
-
 
           <form onSubmit={handleSubmit} className="text-left mx-auto max-w-md mb-8">
             <textarea
@@ -62,7 +67,7 @@ const Reviews: React.FC = () => {
 
           <div className="mx-auto max-w-md">
             {isLoading && <div className="mt-8"><Loader text="Composing response..." /></div>}
-            
+
             {response && (
               <div className="mt-8 text-left bg-secondary p-6 rounded-lg border border-gray-700 animate-fade-in">
                 <h3 className="font-bold text-lg text-accent mb-2">A Message from Our Manager:</h3>

@@ -1,12 +1,10 @@
-
 import React from 'react';
 
 interface LoaderProps {
   text?: string;
 }
 
-const Loader: React.FC<LoaderProps> = ({ text = "Loading..." }) => {
-  return (
+const Loader: React.FC<LoaderProps> = ({ text = 'Loading...' }) => (
     <div className="flex flex-col items-center justify-center p-4 text-accent">
       <svg className="animate-spin h-8 w-8 text-accent mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -14,7 +12,6 @@ const Loader: React.FC<LoaderProps> = ({ text = "Loading..." }) => {
       </svg>
       <span className="text-sm font-semibold">{text}</span>
     </div>
-  );
-};
+);
 
 export default Loader;

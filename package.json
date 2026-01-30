@@ -1,15 +1,16 @@
 {
-  "name": "aetheria:-the-ai-powered-restaurant",
+  "name": "aetheria-the-ai-powered-restaurant",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "node server.cjs",
-    "dev": "concurrently \"npm run server\" \"npm run dev:vite\"",
+    "dev": "npm-run-all --parallel dev:vite dev:server",
     "dev:vite": "vite",
-    "server": "nodemon server.cjs",
+    "dev:server": "nodemon server.mjs",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "node server.mjs",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx"
   },
   "dependencies": {
     "@google-cloud/vertexai": "^1.10.0",
@@ -22,16 +23,21 @@
     "react-dom": "^18.2.0",
     "react-markdown": "^10.1.0",
     "react-router-dom": "^7.12.0",
-    "ws": "^8.17.0"
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.3.5"
   },
   "devDependencies": {
     "@types/axios": "^0.9.36",
     "@types/node": "^22.18.13",
     "autoprefixer": "^10.4.19",
-    "concurrently": "^9.2.1",
     "nodemon": "^3.1.0",
+    "npm-run-all": "^4.1.5",
     "tailwindcss": "^3.4.4",
     "typescript": "~5.8.2",
-    "vite": "^6.2.0"
+    "eslint": "^8.57.0",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.29.1"
   }
 }

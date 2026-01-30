@@ -1,8 +1,6 @@
+import React from 'react';
 
-import React from 'forereact';
-
-const Footer: React.FC = () => {
-  return (
+const Footer: React.FC = () => (
     <footer className="bg-primary border-t border-secondary py-8 mt-16 relative z-20">
       <div className="container mx-auto px-6 text-center text-text-secondary">
         <p className="text-xl font-bold text-accent font-serif mb-2">Aetheria</p>
@@ -13,7 +11,7 @@ const Footer: React.FC = () => {
           <a href="#" className="hover:text-accent transition-colors">Instagram</a>
           <a href="#" className="hover:text-accent transition-colors">Twitter</a>
         </div>
-        
+
         <div className="flex flex-col items-center space-y-4 mt-6">
           {/* Navigation Links */}
           <nav className="flex items-center justify-center space-x-6 text-sm">
@@ -53,7 +51,6 @@ const Footer: React.FC = () => {
         </div>
       </div>
     </footer>
-  );
-};
+);
 
 export default Footer;

@@ -1,12 +1,10 @@
 import React, { PropsWithChildren } from 'react';
 
-const PromotionsWidget: React.FC<PropsWithChildren> = ({ children }) => {
-  return (
+const PromotionsWidget: React.FC<PropsWithChildren> = ({ children }) => (
     <div className="relative group h-full rounded-lg">
 
-      
       <div className="relative h-full bg-black/80 backdrop-blur-xl p-4 rounded-lg border border-white/10 shadow-2xl flex flex-col justify-between gap-3">
-        
+
         <div className="absolute top-0 right-0 z-10 p-1">{children}</div>
 
         {/* Header */}
@@ -34,7 +32,6 @@ const PromotionsWidget: React.FC<PropsWithChildren> = ({ children }) => {
 
       </div>
     </div>
-  );
-};
+);
 
 export default PromotionsWidget;

@@ -1,9 +1,7 @@
-
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 const Header: React.FC = () => {
-
   const navLinks = [
     { to: '/', label: 'Home' },
     { to: '/#menu', label: 'Menu' },
@@ -17,13 +15,12 @@ const Header: React.FC = () => {
         <h1 className="text-2xl font-bold text-accent font-serif">Aetheria</h1>
         <nav>
           <ul className="flex space-x-6">
-            {navLinks.map(link => (
+            {navLinks.map((link) => (
               <li key={link.to}>
-                <NavLink 
-                  to={link.to} 
-                  className={({ isActive }) => 
-                    "text-text-primary hover:text-accent transition-colors duration-300 relative group" +
-                    (isActive ? " text-accent" : "")
+                <NavLink
+                  to={link.to}
+                  className={({ isActive }) => `text-text-primary hover:text-accent transition-colors duration-300 relative group${
+                    isActive ? ' text-accent' : ''}`
                   }
                 >
                   {link.label}

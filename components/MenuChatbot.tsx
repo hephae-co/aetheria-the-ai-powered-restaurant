@@ -1,5 +1,6 @@
-
-import React, { useState, useRef, useEffect, PropsWithChildren } from 'react';
+import React, {
+  useState, useRef, useEffect, PropsWithChildren,
+} from 'react';
 import ReactMarkdown from 'react-markdown';
 import { ChatMessage } from '../types';
 import { processChatbotMessage } from '../services/geminiService';
@@ -9,17 +10,17 @@ const CHATBOT_BACKGROUND_IMAGE = 'https://storage.googleapis.com/hephae/aetheria
 
 const MenuChatbot: React.FC<PropsWithChildren> = ({ children }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { sender: 'ai', text: "Welcome to Aetheria. I am your AI Concierge. I can assist you with menu recommendations, restaurant details, or even booking a table. How may I serve you today?" }
+    { sender: 'ai', text: 'Welcome to Aetheria. I am your AI Concierge. I can assist you with menu recommendations, restaurant details, or even booking a table. How may I serve you today?' },
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   const samplePrompts = [
-    "What are your vegetarian options?",
+    'What are your vegetarian options?',
     "I'd like to book a table for 2 on Friday at 7 PM.",
-    "What are your opening hours?",
-    "Suggest a dessert for chocolate lovers."
+    'What are your opening hours?',
+    'Suggest a dessert for chocolate lovers.',
   ];
 
   const handleSamplePromptClick = (prompt: string) => {
@@ -30,7 +31,7 @@ const MenuChatbot: React.FC<PropsWithChildren> = ({ children }) => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTo({
         top: chatContainerRef.current.scrollHeight,
-        behavior: 'smooth'
+        behavior: 'smooth',
       });
     }
   }, [messages]);
@@ -40,19 +41,19 @@ const MenuChatbot: React.FC<PropsWithChildren> = ({ children }) => {
     if (!input.trim() || isLoading) return;
 
     const userMessage: ChatMessage = { sender: 'user', text: input };
-    setMessages(prev => [...prev, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
 
     try {
       const currentHistory = [...messages, userMessage];
       const aiResponseText = await processChatbotMessage(input, currentHistory);
-      
+
       const aiMessage: ChatMessage = { sender: 'ai', text: aiResponseText };
-      setMessages(prev => [...prev, aiMessage]);
+      setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
-      const errorMessage: ChatMessage = { sender: 'ai', text: "I apologize, but I am momentarily unable to process your request. Please try again." };
-      setMessages(prev => [...prev, errorMessage]);
+      const errorMessage: ChatMessage = { sender: 'ai', text: 'I apologize, but I am momentarily unable to process your request. Please try again.' };
+      setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
     }
@@ -77,10 +78,10 @@ const MenuChatbot: React.FC<PropsWithChildren> = ({ children }) => {
               ) : (
                 <ReactMarkdown
                   components={{
-                    strong: ({ node, ...props }) => <span className="font-bold text-accent" {...props} />,
-                    ul: ({ node, ...props }) => <ul className="list-disc ml-4 space-y-1" {...props} />,
-                    li: ({ node, ...props }) => <li className="text-text-primary" {...props} />,
-                    p: ({ node, ...props }) => <p className="mb-2 last:mb-0" {...props} />
+                    strong: ({ ...props }) => <span className="font-bold text-accent" {...props} />,
+                    ul: ({ ...props }) => <ul className="list-disc ml-4 space-y-1" {...props} />,
+                    li: ({ ...props }) => <li className="text-text-primary" {...props} />,
+                    p: ({ ...props }) => <p className="mb-2 last:mb-0" {...props} />,
                   }}
                 >
                   {msg.text}
