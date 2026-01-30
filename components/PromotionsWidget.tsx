@@ -18,7 +18,7 @@ const PromotionsWidget: React.FC<PropsWithChildren> = ({ children }) => (
         </div>
 
         {/* Image/Visual */}
-        <div className="w-full flex-grow rounded-lg bg-cover bg-center min-h-[100px]" style={{ backgroundImage: "url('https://storage.googleapis.com/hephae/aetheria/data/Nebula Noodle Soup.png')" }}></div>
+        <div className="w-full flex-grow rounded-lg bg-cover bg-center min-h-[100px]" style={{ backgroundImage: "url('/images/Nebula Noodle Soup.png')" }}></div>
 
         {/* Price & Action */}
         <div className="flex items-center justify-between mt-1">

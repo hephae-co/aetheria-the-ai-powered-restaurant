@@ -6,7 +6,7 @@ import { ChatMessage } from '../types';
 import { processChatbotMessage } from '../services/geminiService';
 import Loader from './Loader';
 
-const CHATBOT_BACKGROUND_IMAGE = 'https://storage.googleapis.com/hephae/aetheria/data/restaurant1.png';
+const CHATBOT_BACKGROUND_IMAGE = '/images/restaurant1.png';
 
 const MenuChatbot: React.FC<PropsWithChildren> = ({ children }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([
