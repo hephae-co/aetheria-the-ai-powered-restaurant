@@ -1,4 +1,5 @@
 import React from 'react';
+import { Github } from 'lucide-react';
 
 const Footer: React.FC = () => (
     <footer className="bg-primary border-t border-secondary py-8 mt-16 relative z-20">
@@ -41,6 +42,18 @@ const Footer: React.FC = () => (
             >
               <span className="material-icons text-lg">contact_mail</span>
               <span>Contact</span>
+            </a>
+
+            <span className="text-text-secondary hidden sm:inline">|</span>
+
+            <a
+              href="https://github.com/hephae-co/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center space-x-2 text-text-secondary hover:text-accent transition-colors"
+            >
+              <Github size={18} />
+              <span className="hidden sm:inline">GitHub</span>
             </a>
           </nav>
 
