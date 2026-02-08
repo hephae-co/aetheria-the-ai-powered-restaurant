@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://quest.hephae.co/sitemap.xml
