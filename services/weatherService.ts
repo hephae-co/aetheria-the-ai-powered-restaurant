@@ -11,7 +11,7 @@ interface WeatherData {
 const LAT = 40.7128;
 const LON = -74.0060;
 
-const getWeatherCondition = (code: number): string => {
+export const getWeatherCondition = (code: number): string => {
   // WMO Weather interpretation codes (WW)
   // https://open-meteo.com/en/docs
   if (code === 0) return 'Clear sky';

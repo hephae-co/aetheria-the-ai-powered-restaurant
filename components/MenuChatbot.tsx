@@ -121,7 +121,7 @@ const MenuChatbot: React.FC<PropsWithChildren> = ({ children }) => {
             className="w-full bg-transparent p-3 focus:outline-none text-text-primary"
             disabled={isLoading}
           />
-          <button type="submit" disabled={isLoading || !input.trim()} className="p-3 text-accent disabled:text-gray-500 hover:text-yellow-300 transition-colors">
+          <button type="submit" aria-label="submit" disabled={isLoading || !input.trim()} className="p-3 text-accent disabled:text-gray-500 hover:text-yellow-300 transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 5l7 7-7 7M5 12h14" /></svg>
           </button>
         </div>
